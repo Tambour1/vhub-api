@@ -1,0 +1,49 @@
+version: '3.8'
+
+networks:
+  vhub.net:
+    driver: bridge
+
+services:
+
+  # --- PHP Service ---
+  php:
+    image: canals/php:8.2
+    container_name: vhub_api_php
+    volumes:
+      - ./public:/var/www/html
+      - ./src:/var/www/src
+      - ./vendor:/var/www/vendor
+      - ./shared/img:/var/www/img
+    ports:
+      - "2848:80"
+    networks:
+      - vhub.net
+    restart: unless-stopped
+
+  # --- Database Service ---
+  db:
+    image: mariadb:latest
+    container_name: vhub_api_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306" 
+    networks:
+      - vhub.net
+
+  # --- phpmyadmin Service ---
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: vhub_api_phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "8006:80"
+    networks:
+      - vhub.net
+    restart: unless-stopped

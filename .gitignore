@@ -1,0 +1,6 @@
+# Ignore .env files as they contain sensitive data
+.env*
+
+# Ignore composer files
+composer.lock
+/vendor
