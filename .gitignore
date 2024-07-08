@@ -1,5 +1,6 @@
 # Ignore .env files as they contain sensitive data
 .env*
+db.ini*
 
 # Ignore composer files
 composer.lock

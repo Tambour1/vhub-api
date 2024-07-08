@@ -12,6 +12,7 @@ class GetDefaultAction extends AbstractAction{
             'api_name' => 'Vhub API',
             'links' => [
                 'home' => '/',
+                'Liste des gunplas' => '/gunplas',
             ]
         ];
        $json = json_encode($data);
