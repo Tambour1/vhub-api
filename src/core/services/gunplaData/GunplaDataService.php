@@ -18,6 +18,15 @@ class GunplaDataService implements GunplaDataInterface{
         }
     }
 
+    public function getGunplaById(string $gunplaId):array{
+        try{
+            $gunpla = Gunpla::find($gunplaId);
+            return $gunpla->toArray();
+        }catch(\Exception $e){
+            throw new GunplaDataException($e->getMessage());
+        }
+    }
+
     public function getGunplaPoses(string $gunplaId):array{
         try{
             $gunpla = Gunpla::find($gunplaId);
