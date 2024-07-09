@@ -1,4 +1,4 @@
-CREATE TABLE gunpla (
+CREATE TABLE IF NOT EXISTS gunpla (
     id CHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
@@ -14,8 +14,32 @@ CREATE TABLE gunpla (
 
 DELIMITER $$
 
-CREATE TRIGGER before_insert_gunpla
+CREATE TRIGGER IF NOT EXISTS before_insert_gunpla
 BEFORE INSERT ON gunpla
+FOR EACH ROW
+BEGIN
+    SET NEW.id = UUID();
+END$$
+
+DELIMITER ;
+
+CREATE TABLE IF NOT EXISTS poses (
+    id CHAR(36) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    image_url VARCHAR(255),
+    gunpla_id CHAR(36),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_gunpla
+        FOREIGN KEY (gunpla_id) REFERENCES gunpla(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+DELIMITER $$
+
+CREATE TRIGGER IF NOT EXISTS before_insert_poses
+BEFORE INSERT ON poses
 FOR EACH ROW
 BEGIN
     SET NEW.id = UUID();
