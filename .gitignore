@@ -5,3 +5,5 @@ db.ini*
 # Ignore composer files
 composer.lock
 /vendor
+
+db_data/*

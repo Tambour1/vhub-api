@@ -4,6 +4,10 @@ networks:
   vhub.net:
     driver: bridge
 
+volumes:
+  db_data:
+    driver: local
+
 services:
 
   # --- PHP Service ---
@@ -32,8 +36,11 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306" 
+    volumes:
+      - ./db_data:/var/lib/mysql
     networks:
       - vhub.net
+    restart: unless-stopped
 
   # --- phpmyadmin Service ---
   phpmyadmin:
