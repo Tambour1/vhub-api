@@ -38,6 +38,7 @@ services:
       - "3306:3306" 
     volumes:
       - ./db_data:/var/lib/mysql
+      - ./init-data:/docker-entrypoint-initdb.d
     networks:
       - vhub.net
     restart: unless-stopped
